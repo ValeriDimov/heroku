@@ -1,0 +1,2 @@
+INSERT INTO users(created, email, first_name, image_url, is_active, last_name, modified ,`password`)
+VALUES ('2022-06-05 15:44:43', 'valeri.dimov@abv.bg', 'Valeri', null, 1, 'Dimov', null, '9629f42df1700e87d3bdef1ae174644650f3865bca1b3852b54ef9e879f9c5ccaa43f9451966fd8c');

@@ -1,5 +1,7 @@
 package bg.softuni.Mine_mobilelele.models;
 
+import org.springframework.data.auditing.CurrentDateTimeProvider;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -29,7 +31,7 @@ public class UserEntity {
     private String imageUrl;
 
     @Column(nullable = false)
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
     private LocalDateTime modified;
 
