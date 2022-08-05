@@ -1,14 +1,10 @@
 package bg.softuni.timeforschool.model.dto;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 public class CreateOrUpdateOfferDTO {
 
-//    @NotNull
-//    @Min(1)
-//    private Long courseId;
+    private Long id;
 
     @NotEmpty
     private String course;
@@ -19,14 +15,25 @@ public class CreateOrUpdateOfferDTO {
     @NotEmpty
     private String contact;
 
-//    public Long getCourseId() {
-//        return courseId;
-//    }
-//
-//    public CreateOrUpdateOfferDTO setCourseId(Long courseId) {
-//        this.courseId = courseId;
-//        return this;
-//    }
+    private String sellerName;
+
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    public CreateOrUpdateOfferDTO setSellerName(String sellerName) {
+        this.sellerName = sellerName;
+        return this;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public CreateOrUpdateOfferDTO setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public String getCourse() {
         return course;

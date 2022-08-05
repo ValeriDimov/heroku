@@ -8,7 +8,7 @@ public class OfferDetailDTO {
 
     @NotNull
     @Min(1)
-    private Long offerId;
+    private Long id;
 
     @NotEmpty
     private String course;
@@ -22,12 +22,12 @@ public class OfferDetailDTO {
     @NotEmpty
     private String sellerName;
 
-    public Long getOfferId() {
-        return offerId;
+    public Long getId() {
+        return id;
     }
 
-    public OfferDetailDTO setOfferId(Long offerId) {
-        this.offerId = offerId;
+    public OfferDetailDTO setId(Long id) {
+        this.id = id;
         return this;
     }
 

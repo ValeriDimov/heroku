@@ -2,6 +2,7 @@ package bg.softuni.timeforschool.web;
 
 import bg.softuni.timeforschool.exception.ObjectNotFoundException;
 import bg.softuni.timeforschool.model.dto.CreateOrUpdateOfferDTO;
+import bg.softuni.timeforschool.model.dto.OfferDetailDTO;
 import bg.softuni.timeforschool.model.dto.SearchOfferDTO;
 import bg.softuni.timeforschool.model.user.TimeForSchoolUserDetails;
 import bg.softuni.timeforschool.service.OfferService;
@@ -24,6 +25,8 @@ import javax.validation.Valid;
 @Controller
 public class OfferController {
 
+    private CreateOrUpdateOfferDTO offer = new CreateOrUpdateOfferDTO();
+
     private final OfferService offerService;
 
     public OfferController(OfferService offerService) {
@@ -37,7 +40,7 @@ public class OfferController {
             sort = "id",
             direction = Sort.Direction.DESC,
             page = 0,
-            size = 5) Pageable pageable) {
+            size = 3) Pageable pageable) {
 
         model.addAttribute("offers", offerService.getAllOffers(pageable));
 
@@ -90,22 +93,49 @@ public class OfferController {
             model.addAttribute("searchOfferModel", searchOfferDTO);
         }
 
-        if (searchOfferDTO !=null) {
+        if (!searchOfferDTO.isEmpty() || searchOfferDTO.getCourse() != null) {
             model.addAttribute("offers", offerService.searchOffer(searchOfferDTO));
         }
 
         return "offer-search";
     }
-
-    @GetMapping("/offers/{id}/edit")
+    @PreAuthorize("isOwner(#id)")
+    @PostMapping("/offers/{id}/edit")
     public String edit(@PathVariable("id") Long id,
                        Model model) {
-        var offer = offerService.getOfferEditDetails(id).
+        offer = offerService.getOfferEditDetails(id).
             orElseThrow(() -> new ObjectNotFoundException("Offer with ID "+ id + "not found"));
 
         model.addAttribute("offer", offer);
 
-        return "details";
+        return "redirect:/offers/edit";
+    }
+
+    @GetMapping("/offers/edit")
+    public String editOffer(Model model) {
+        if (!model.containsAttribute("offerEdit")) {
+            model.addAttribute("offerEdit", offer);
+        }
+
+        return "offer-edit";
+    }
+
+    @PostMapping("/offers/edit")
+    public String editOffer(@Valid CreateOrUpdateOfferDTO offer,
+                           BindingResult bindingResult,
+                           RedirectAttributes redirectAttributes,
+                           @AuthenticationPrincipal TimeForSchoolUserDetails userDetails) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("addOfferCourse", offer);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offer",
+                    bindingResult);
+            return "redirect:/offers/edit";
+        }
+
+        offerService.editOffer(offer, userDetails);
+
+        return "redirect:/offers/all";
     }
 
 //    @PreAuthorize("@offerService.isOwner(#principal.name, #id)")
@@ -122,7 +152,7 @@ public class OfferController {
     public String getOfferDetail(@PathVariable("id") Long id,
                                  Model model) {
 
-        var offerDto =
+        OfferDetailDTO offerDto =
             offerService.findOfferByID(id).
                 orElseThrow(() -> new ObjectNotFoundException("Offer with ID " +
                     id + " not found!"));

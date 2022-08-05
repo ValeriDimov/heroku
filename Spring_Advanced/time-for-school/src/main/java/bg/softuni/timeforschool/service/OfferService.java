@@ -11,6 +11,7 @@ import bg.softuni.timeforschool.repository.OfferSpecification;
 import bg.softuni.timeforschool.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -90,6 +91,17 @@ public class OfferService {
         offerRepository.save(newOffer);
     }
 
+    public void editOffer(CreateOrUpdateOfferDTO editOfferDTO, UserDetails userDetails) {
+        OfferEntity newOffer = modelMapper.map(editOfferDTO, OfferEntity.class);
+
+        UserEntity seller = userRepository.findByEmail(userDetails.getUsername()).
+                orElseThrow();
+
+        newOffer.setSeller(seller);
+
+        offerRepository.save(newOffer);
+    }
+
 
     public List<OfferDetailDTO> searchOffer(SearchOfferDTO searchOfferDTO) {
         List<OfferDetailDTO> offerDetailDTOS = this.offerRepository.findAll(new OfferSpecification(searchOfferDTO)).
@@ -98,4 +110,6 @@ public class OfferService {
 
         return offerDetailDTOS;
     }
+
+
 }
