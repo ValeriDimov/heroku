@@ -20,14 +20,14 @@
 
 <div class="container-fluid">
     <form
-            th:action="@{/schools/all}"
+            th:action="@{/schools/search}"
             th:method="get"
             class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
 
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex justify-content-center">
-                    <input type="submit" class="btn btn-info btn-lg" value="Search offers"/>
+                    <input type="submit" class="btn btn-info btn-lg" value="Search schools"/>
                 </div>
             </div>
         </div>
@@ -35,26 +35,31 @@
     <h2 class="text-center text-white mt-5">All Schools</h2>
     <div th:each="school : ${schools.getContent()}"
          th:object="${school}"
-         class="offers row mx-auto d-flex flex-row justify-content-center">
+         class="schools row mx-auto d-flex flex-row justify-content-center">
         <div class="offer card col-sm-4 col-md-6  col-lg-8 m-1 p-0">
             <div class="card-body pb-1">
                 <h4 class="card-title text-center">
-                    <th:block th:text="*{course}"></th:block>
+                    <th:block th:text="*{name}"></th:block>
                 </h4>
                 <h5 class="card-title text-center">
-                    <th:block th:text="*{sellerName}"></th:block>
+                    <th:block th:text="*{cityName}"></th:block>
                 </h5>
+                <h5 class="card-title text-center">
+                    <th:block th:text="*{districtName}"></th:block>
+                </h5>
+                <h6 class="card-title text-center"><span>• School website: <th:block th:text="*{schoolUrl}"></th:block></span></h6>
             </div>
-            <ul class="offer-details list-group list-group-flush">
+
+            <h6 class="card-title"><span>• School profiles: </span></h6>
+            <ul class="offer-details list-group list-group-flush"
+                th:each="schoolProfile : ${school.getSchoolProfiles()}">
                 <li class="list-group-item">
-                    <h6 class="card-text"><span>• Course description: </span></h6>
-                    <div class="card-text"><span><th:block th:text="*{description}"></th:block></span></div>
-                    <h6 class="card-text"><span>• Contacts: </span></h6>
-                    <div class="card-text"><span><th:block th:text="*{contact}"></th:block> </span></div>
+                    <div class="card-text"><span><th:block th:text="${schoolProfile.toString()}"></th:block></span>
+                    </div>
                 </li>
             </ul>
             <div class="card-body">
-                <a class="card-link" href="#" th:href="@{/offers/{id}(id=*{id})}">Details</a>
+                <a class="card-link" href="#" th:href="@{/schools/{id}(id=*{id})}">Details</a>
             </div>
         </div>
     </div>
@@ -85,11 +90,11 @@
     </nav>
     <nav>
         <ul class="pagination">
-            <li class="page-item" th:classappend="${offers.hasNext() ? '' : 'disabled'}">
-                <a th:if="${offers.hasNext()}"
-                   th:href="@{/offers/all(size=${offers.getSize()},page=${offers.getNumber() + 1})}"
+            <li class="page-item" th:classappend="${schools.hasNext() ? '' : 'disabled'}">
+                <a th:if="${schools.hasNext()}"
+                   th:href="@{/schools/all(size=${schools.getSize()},page=${schools.getNumber() + 1})}"
                    class="page-link" href="#">Next</a>
-                <a th:unless="${offers.hasNext()}"
+                <a th:unless="${schools.hasNext()}"
                    class="page-link" href="#">Next</a>
             </li>
         </ul>

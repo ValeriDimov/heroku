@@ -67,10 +67,4 @@ public class OfferDetailDTO {
         return this;
     }
 
-    public String getOfferHighlight() {
-        StringBuilder sb = new StringBuilder();
-        return sb.append(this.course).append(System.lineSeparator()).append(this.sellerName).toString();
-
-    }
-
 }

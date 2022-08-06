@@ -33,4 +33,9 @@ public class SchoolProfileEntity extends BaseEntity {
         this.schools = schools;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return profile.toString();
+    }
 }

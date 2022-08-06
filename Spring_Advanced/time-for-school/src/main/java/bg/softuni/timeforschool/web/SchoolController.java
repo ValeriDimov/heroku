@@ -3,6 +3,8 @@ package bg.softuni.timeforschool.web;
 import bg.softuni.timeforschool.exception.ObjectNotFoundException;
 import bg.softuni.timeforschool.model.dto.SchoolDetailDTO;
 import bg.softuni.timeforschool.model.dto.SearchSchoolDTO;
+import bg.softuni.timeforschool.service.CityService;
+import bg.softuni.timeforschool.service.DistrictService;
 import bg.softuni.timeforschool.service.SchoolService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,9 +21,13 @@ import javax.validation.Valid;
 public class SchoolController {
 
     private final SchoolService schoolService;
+    private final DistrictService districtService;
+    private final CityService cityService;
 
-    public SchoolController(SchoolService schoolService) {
+    public SchoolController(SchoolService schoolService, DistrictService districtService, CityService cityService) {
         this.schoolService = schoolService;
+        this.districtService = districtService;
+        this.cityService = cityService;
     }
 
     @GetMapping("/schools/all")
@@ -29,7 +35,7 @@ public class SchoolController {
             Model model,
             @PageableDefault(
                     sort = "id",
-                    direction = Sort.Direction.DESC,
+                    direction = Sort.Direction.ASC,
                     page = 0,
                     size = 5) Pageable pageable) {
 
@@ -38,7 +44,7 @@ public class SchoolController {
         return "schools";
     }
 
-    @GetMapping("/offers/search")
+    @GetMapping("/schools/search")
     public String searchQuery(@Valid SearchSchoolDTO searchSchoolDTO,
                               BindingResult bindingResult,
                               Model model) {
@@ -50,21 +56,22 @@ public class SchoolController {
                     bindingResult);
             return "school-search";
         }
+//        model.addAttribute("districts", districtService.getAllDistricts());
+//        model.addAttribute("cities", cityService.getAllCities());
 
         if (!model.containsAttribute("searchSchoolModel")) {
             model.addAttribute("searchSchoolModel", searchSchoolDTO);
         }
 
-        if (!searchSchoolDTO.isEmpty() ) {
-            model.addAttribute("schools", schoolService.searchOffer(searchSchoolDTO));
+
+        if (!searchSchoolDTO.isEmpty() || searchSchoolDTO.getDistrictName() != null) {
+            model.addAttribute("schools", schoolService.searchSchool(searchSchoolDTO));
         }
 
         return "school-search";
     }
 
-
-
-    @GetMapping("/offers/{id}")
+    @GetMapping("/schools/{id}")
     public String getSchoolDetail(@PathVariable("id") Long id,
                                  Model model) {
 

@@ -12,6 +12,15 @@ body {
      padding-right: 110px;
 }
 
+.search-school-fields {
+     padding-top:10px;
+     padding-bottom:10px;
+
+     width: 60%;
+     position: relative;
+
+}
+
 .container, .container-fluid {
      padding-top:100px;
      background-color: rgb(0,0,0); /* Fallback color */
