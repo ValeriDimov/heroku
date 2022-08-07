@@ -18,6 +18,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +66,7 @@ public class OfferServiceTest {
                 setContact("0888112233").
                 setCourse("Математика").
                 setDescription("курс за 4-ти клас").
+                setExpiryDate(LocalDate.now()).
                 setId(1L).
                 setSellerName("Pesho");
 
@@ -87,6 +89,7 @@ public class OfferServiceTest {
         Assertions.assertEquals(addOfferDTO.getCourse(), newOffer.getCourse());
         Assertions.assertEquals(addOfferDTO.getContact(), newOffer.getContact());
         Assertions.assertEquals(addOfferDTO.getDescription(), newOffer.getDescription());
+        Assertions.assertEquals(addOfferDTO.getExpiryDate(), newOffer.getExpiryDate());
         Assertions.assertEquals(addOfferDTO.getSellerName(), newOffer.getSeller().getName());
 
     }
@@ -156,6 +159,8 @@ public class OfferServiceTest {
                 setCourse("БЕЛ").
                 setDescription("Подготвителен курс за 7-ми клас").
                 setSeller(testUserEntity).
+                setExpiryDate(LocalDate.now()).
+                setForDeletion(false).
                 setId(1L);
 
         when(mockOfferRepo.findById(offer.getId())).

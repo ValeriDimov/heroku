@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "offers")
@@ -17,6 +18,10 @@ public class OfferEntity extends BaseEntity {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String contact;
+
+    private LocalDate expiryDate;
+
+    private boolean forDeletion = false;
 
     @ManyToOne
     private UserEntity seller;
@@ -57,6 +62,25 @@ public class OfferEntity extends BaseEntity {
         return this;
     }
 
+    public LocalDate getExpiryDate() {
+        return expiryDate;
+    }
+
+    public OfferEntity setExpiryDate(LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
+        return this;
+    }
+
+    public boolean isForDeletion() {
+        return forDeletion;
+    }
+
+    public OfferEntity setForDeletion(boolean forDeletion) {
+        this.forDeletion = forDeletion;
+        return this;
+    }
+
+
     @Override
     public String toString() {
         return "OfferEntity{" +
@@ -66,5 +90,4 @@ public class OfferEntity extends BaseEntity {
                 ", seller=" + seller +
                 '}';
     }
-
 }

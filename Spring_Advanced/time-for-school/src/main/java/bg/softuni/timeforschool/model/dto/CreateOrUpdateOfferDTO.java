@@ -1,6 +1,7 @@
 package bg.softuni.timeforschool.model.dto;
 
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 
 public class CreateOrUpdateOfferDTO {
 
@@ -16,6 +17,17 @@ public class CreateOrUpdateOfferDTO {
     private String contact;
 
     private String sellerName;
+
+    private LocalDate expiryDate = LocalDate.now().plusMonths(3L);
+
+    public LocalDate getExpiryDate() {
+        return expiryDate;
+    }
+
+    public CreateOrUpdateOfferDTO setExpiryDate(LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
+        return this;
+    }
 
     public String getSellerName() {
         return sellerName;

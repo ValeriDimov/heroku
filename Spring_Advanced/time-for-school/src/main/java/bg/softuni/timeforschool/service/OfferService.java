@@ -3,19 +3,22 @@ package bg.softuni.timeforschool.service;
 import bg.softuni.timeforschool.model.dto.CreateOrUpdateOfferDTO;
 import bg.softuni.timeforschool.model.dto.OfferDetailDTO;
 import bg.softuni.timeforschool.model.dto.SearchOfferDTO;
+import bg.softuni.timeforschool.model.entity.DeletedOfferEntity;
 import bg.softuni.timeforschool.model.entity.OfferEntity;
 import bg.softuni.timeforschool.model.entity.UserEntity;
 import bg.softuni.timeforschool.model.enums.UserRoleEnum;
+import bg.softuni.timeforschool.repository.DeletedOfferRepository;
 import bg.softuni.timeforschool.repository.OfferRepository;
 import bg.softuni.timeforschool.repository.OfferSpecification;
 import bg.softuni.timeforschool.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,13 +26,15 @@ import java.util.Optional;
 public class OfferService {
 
     private final OfferRepository offerRepository;
+    private final DeletedOfferRepository deletedOfferRepository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
     public OfferService(OfferRepository offerRepository,
-                        UserRepository userRepository,
+                        DeletedOfferRepository deletedOfferRepository, UserRepository userRepository,
                         ModelMapper modelMapper) {
         this.offerRepository = offerRepository;
+        this.deletedOfferRepository = deletedOfferRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
@@ -111,5 +116,38 @@ public class OfferService {
         return offerDetailDTOS;
     }
 
+    @Scheduled(cron = "0 */2 * * * ?")
+    public void ScheduledOfferDeactivation() {
+        List<OfferEntity> allOffers = offerRepository.findAll();
+
+        for (OfferEntity offer : allOffers) {
+            if (offer.getExpiryDate().isBefore(LocalDate.now())) {
+
+                offer.setForDeletion(true);
+                offerRepository.save(offer);
+
+                DeletedOfferEntity deletedOfferEntity = new DeletedOfferEntity().
+                        setContact(offer.getContact()).
+                        setCourse(offer.getCourse()).
+                        setDescription(offer.getDescription()).
+                        setExpiryDate(offer.getExpiryDate());
+
+                deletedOfferRepository.save(deletedOfferEntity);
+            }
+        }
+    }
+
+
+    @Scheduled(cron = "0 */3 * * * ?")
+    public void ScheduledOfferDeletion() {
+        List<OfferEntity> allOffers = offerRepository.findAll();
+
+        for (OfferEntity offer : allOffers) {
+            if (offer.isForDeletion()) {
+
+               offerRepository.delete(offer);
+            }
+        }
+    }
 
 }

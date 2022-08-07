@@ -24,6 +24,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -157,6 +158,7 @@ class OfferControllerIT {
                 setContact("0888112233").
                 setCourse("Математика").
                 setDescription("курс за 4-ти клас").
+                setExpiryDate(LocalDate.now()).
                 setId(1L).
                 setSellerName("Pesho");
 
