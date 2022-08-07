@@ -20,14 +20,15 @@
 
 <div class="container-fluid">
     <h5 class="text-center text-white mt-5 align-content-center">
-        It's time for school,
+
         <span
                 sec:authorize="isAuthenticated()"
-                th:text="${#authentication.principal.name}">
+                th:text="#{index_greeting} + ' ' + ${#authentication.principal.name}">
         </span>
 
-        <span sec:authorize="!isAuthenticated()">
-            Dear Guest
+        <span sec:authorize="!isAuthenticated()"
+              th:text="#{index_greeting} + ' ' + #{index_greeting_name}" >
+
         </span>
     </h5>
     <div class="container-schools">
@@ -36,14 +37,14 @@
                 th:method="get"
                 class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
             <div class="form-group">
-                <label class="text-white font-weight-bold">Schools</label>
-
+                <h4 class="text-white" th:text="#{index_schools}"></h4>
+                <h5 class="text-white" th:text="#{index_schools_desc}"></h5>
             </div>
 
             <div class="row">
                 <div class="col col-md-4">
                     <div class="button-holder d-flex">
-                        <input type="submit" class="btn btn-info btn-lg" value="Find schools"/>
+                        <input type="submit" class="btn btn-info btn-lg" th:value="#{index_schools_bnt}"/>
                     </div>
                 </div>
             </div>
@@ -55,14 +56,14 @@
                 th:method="get"
                 class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
             <div class="form-group">
-                <label class="text-white font-weight-bold">Offers</label>
-
+                <h4 class="text-white" th:text="#{index_offers}"></h4>
+                <h5 class="text-white" th:text="#{index_offers_desc}"></h5>
             </div>
 
             <div class="row">
                 <div class="col col-md-4">
                     <div class="button-holder d-flex">
-                        <input type="submit" class="btn btn-info btn-lg" value="Find offers"/>
+                        <input type="submit" class="btn btn-info btn-lg" th:value="#{index_offers_bnt}"/>
                     </div>
                 </div>
             </div>
