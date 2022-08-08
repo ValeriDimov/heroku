@@ -11,12 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SchoolControllerIT {
+public class RestSchoolControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,22 +42,19 @@ public class SchoolControllerIT {
     }
 
     @Test
-    void testAllSchoolsPageShown() throws Exception {
-        mockMvc.perform(get("/schools/all")).
-                andExpect(status().isOk()).
-                andExpect(model().attributeExists("schools")).
-                andExpect(view().name("schools"));
+    void testAllSchoolsRestAPI() throws Exception {
+        mockMvc.perform(get("/api/schools/")).
+                andExpect(status().isOk());
     }
 
     @Test
-    void testSearchWithOutErrors() throws Exception {
-        mockMvc.perform(get("/schools/{id}", testSchool.getId())).
-                andExpect(status().isOk()).
-                andExpect(view().name("school-details"));
+    void testSearchWithOutErrorsRestAPI() throws Exception {
+        mockMvc.perform(get("/api/schools/{id}", testSchool.getId())).
+                andExpect(status().isOk());
     }
 
     @Test
-    void testSearchWithErrors() throws Exception {
+    void testSearchWithErrorsRestAPI() throws Exception {
         mockMvc.perform(get("/schools/{id}", 30L)).
                 andExpect(status().is4xxClientError());
     }

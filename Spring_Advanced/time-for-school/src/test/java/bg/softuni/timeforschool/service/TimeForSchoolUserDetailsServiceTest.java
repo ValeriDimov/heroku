@@ -11,8 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,11 +64,11 @@ public class TimeForSchoolUserDetailsServiceTest {
         Assertions.assertEquals(testUserEntity.getName(), userDetails.getName());
         Assertions.assertEquals(testUserEntity.getPassword(), userDetails.getPassword());
 
-        var authorities = userDetails.getAuthorities();
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 
         Assertions.assertEquals(2, authorities.size());
 
-        var authoritiesIter = authorities.iterator();
+        Iterator<? extends GrantedAuthority> authoritiesIter = authorities.iterator();
 
         Assertions.assertEquals("ROLE_" + UserRoleEnum.ADMIN.name(),
                 authoritiesIter.next().getAuthority());
@@ -82,8 +85,6 @@ public class TimeForSchoolUserDetailsServiceTest {
         // act && assert
         Assertions.assertThrows(
                 UsernameNotFoundException.class,
-                () -> toTest.loadUserByUsername("non-existant@example.com")
-        );
+                () -> toTest.loadUserByUsername("non-existant@example.com"));
     }
-
 }

@@ -16,7 +16,6 @@ public class TestDataModels {
     private DistrictRepository districtRepository;
     private CityRepository cityRepository;
 
-
     public TestDataModels(UserRepository userRepository, UserRoleRepository userRoleRepository,
                           SchoolRepository schoolRepository,
                           SchoolProfileRepository schoolProfileRepository, DistrictRepository districtRepository,

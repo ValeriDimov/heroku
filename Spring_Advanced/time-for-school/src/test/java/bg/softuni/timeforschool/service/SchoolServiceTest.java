@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -71,6 +70,40 @@ public class SchoolServiceTest {
         Assertions.assertEquals(testSchool.getTelephone(), searchSchoolDTO.getTelephone());
     }
 
+
+    @Test
+    void createTestCityBasedOnCityDTO() {
+        CityEntity city = (CityEntity) new CityEntity().
+                setName("Sofia")
+                .setId(1L);
+
+        when(cityRepository.findById(city.getId())).
+                thenReturn(Optional.of(city));
+
+        DistrictEntity district = (DistrictEntity) new DistrictEntity().
+                setName("Район Витоша").
+                setCity(city).
+                setId(1L);
+
+        CityEntity newCity = cityRepository.findById(city.getId()).orElseThrow();
+        CityDTO cityDTO = new CityDTO().setName(newCity.getName());
+
+        Assertions.assertEquals(cityDTO.getName(), newCity.getName());
+    }
+
+    @Test
+    void createTestDistrictBasedOnCityDTO() {
+        CityEntity testCity1 = createTestCity1();
+        DistrictEntity testDistrict1 = createTestDistrict1(testCity1);
+
+        DistrictDTO districtDTO = new DistrictDTO().setName(testDistrict1.getName())
+                .setCityName(testDistrict1.getCity().getName());
+
+        Assertions.assertEquals(districtDTO.getName(), testDistrict1.getName());
+        Assertions.assertEquals(districtDTO.getCityName(), testDistrict1.getCity().getName());
+
+    }
+
     private CityEntity createTestCity1() {
         CityEntity city = (CityEntity) new CityEntity().
                 setName("Sofia")
@@ -117,8 +150,6 @@ public class SchoolServiceTest {
 
         SchoolProfileEntity firstProfile = schoolProfileRepository.findById(schoolProfile1.getId()).orElseThrow();
         SchoolProfileEntity secondProfile = schoolProfileRepository.findById(schoolProfile2.getId()).orElseThrow();
-
-
     }
 
     private SchoolEntity createTestSchool1(CityEntity city,
@@ -141,45 +172,6 @@ public class SchoolServiceTest {
         when(schoolRepository.findById(1L)).
                 thenReturn(Optional.of(school));
 
-        SchoolEntity newSchool = schoolRepository.findById(school.getId()).orElseThrow();
-
-        return newSchool;
-
-    }
-
-    @Test
-    void createTestCityBasedOnCityDTO() {
-        CityEntity city = (CityEntity) new CityEntity().
-                setName("Sofia")
-                .setId(1L);
-
-        when(cityRepository.findById(city.getId())).
-                thenReturn(Optional.of(city));
-
-        DistrictEntity district = (DistrictEntity) new DistrictEntity().
-                setName("Район Витоша").
-                setCity(city).
-                setId(1L);
-
-        CityEntity newCity = cityRepository.findById(city.getId()).orElseThrow();
-
-        CityDTO cityDTO = new CityDTO().setName(newCity.getName());
-
-        Assertions.assertEquals(cityDTO.getName(), newCity.getName());
-
-    }
-
-    @Test
-    void createTestDistrictBasedOnCityDTO() {
-        CityEntity testCity1 = createTestCity1();
-        DistrictEntity testDistrict1 = createTestDistrict1(testCity1);
-
-        DistrictDTO districtDTO = new DistrictDTO().setName(testDistrict1.getName())
-                .setCityName(testDistrict1.getCity().getName());
-
-        Assertions.assertEquals(districtDTO.getName(), testDistrict1.getName());
-        Assertions.assertEquals(districtDTO.getCityName(), testDistrict1.getCity().getName());
-
-
+        return schoolRepository.findById(school.getId()).orElseThrow();
     }
 }

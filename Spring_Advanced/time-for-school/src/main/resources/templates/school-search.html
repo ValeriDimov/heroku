@@ -17,6 +17,9 @@
 <div th:replace="fragments/navbar">Navbar</div>
 <div class="container">
     <h2 class="text-center text-white">Search for schools</h2>
+    <div class="card-body.search text-center">
+        <a class="card-link" href="#" th:href="@{/schools/all}">Back</a>
+    </div>
     <form
             th:method="GET"
             th:action="@{/schools/search}"
@@ -24,70 +27,74 @@
             class="form-inline"
             style="justify-content: center; margin-top: 50px;"
     >
-        <div class="search-school-fields" style="position: relative">
-            <input
-                    th:field="*{name}"
-                    th:errorclass="is-invalid"
-                    class="form-control mr-sm-2"
-                    style="width: 280px;"
-                    type="search"
-                    placeholder="School name..."
-                    aria-label="Search"
-                    id="name"
-            />
-            <div class="search-school-fields" style="position: relative">
+        <!--        <div class="search-school-fields" style="position: relative">-->
+        <input
+                th:field="*{name}"
+                th:errorclass="is-invalid"
+                class="form-control mr-sm-2"
+                style="width: 280px;"
+                type="search"
+                placeholder="School name..."
+                aria-label="Search"
+                id="name"
+        />
+        <!--            <div class="search-school-fields" style="position: relative">-->
 
-            <input
-                    th:field="*{cityName}"
-                    th:errorclass="is-invalid"
-                    class="form-control mr-sm-2"
-                    style="width: 280px;"
-                    type="search"
-                    placeholder="City name..."
-                    aria-label="Search"
-                    id="cityName"
-            />
-                <div class="search-school-fields" style="position: relative">
+        <input
+                th:field="*{cityName}"
+                th:errorclass="is-invalid"
+                class="form-control mr-sm-2"
+                style="width: 280px;"
+                type="search"
+                placeholder="City name..."
+                aria-label="Search"
+                id="cityName"
+        />
 
-                <input
-                    th:field="*{districtName}"
-                    th:errorclass="is-invalid"
-                    class="form-control mr-sm-2"
-                    style="width: 280px;"
-                    type="search"
-                    placeholder="District name..."
-                    aria-label="Search"
-                    id="districtName"
-            />
+        <input
+                th:field="*{districtName}"
+                th:errorclass="is-invalid"
+                class="form-control mr-sm-2"
+                style="width: 280px;"
+                type="search"
+                placeholder="District name..."
+                aria-label="Search"
+                id="districtName"
+        />
 
 
-            <div class="search-school-fields">
-                <label class="text-center text-white font-weight-bold" for="profile"></label>
-                <select
-                        id="profile"
-                        name="profile"
-                        class="form-control">
-                    <option value="">- Select profile type -</option>
-                    <option
-                            type="search"
-                            th:each="e : ${T(bg.softuni.timeforschool.model.enums.SchoolProfileEnum).values()}"
-                            th:text="${e}"
-                            th:value="${e}"
-                            th:selected="${e} == *{profile}">
-                        Profile type
-                    </option>
-                </select>
+        <label class="text-center text-white font-weight-bold" for="profile">
+
+            <select
+                    id="profile"
+                    name="profile"
+                    class="form-control">
+                <option value="">- Select profile type -</option>
+                <option
+                        type="search"
+                        th:each="e : ${T(bg.softuni.timeforschool.model.enums.SchoolProfileEnum).values()}"
+                        th:text="${e}"
+                        th:value="${e}"
+                        th:field="*{profile}"
+                        th:selected="${e} == *{profile}">
+                    Profile type
+                </option>
+            </select>
+
+            <small
+                    id="searchschoolHelpInline"
+                    class="bg-danger text-light rounded invalid-feedback"
+                    style="width: 97%; position: absolute; padding: 3px 15px; text-align: center;"
+            >
+                <h3 th:if="${schools == null}" class="text-info">There are no schools with these criteria</h3>
+            </small>
+        </label>
+        <div class="search-but">
+            <div class="col col-md-4 ">
+                <button class="btn btn-info btn-lg" type="submit">Search</button>
+
             </div>
         </div>
-        <small
-                id="searchschoolHelpInline"
-                class="bg-danger text-light rounded invalid-feedback"
-                style="width: 97%; position: absolute; padding: 3px 15px; text-align: center;"
-        >
-            <h3 th:if="${schools == null}" class="text-info">There are no schools with these criteria</h3>
-        </small>
-
-        <button class="btn btn-info btn-lg" type="submit">Search</button>
     </form>
 </div>
 

@@ -15,6 +15,7 @@ import javax.persistence.criteria.Join;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SchoolService {
@@ -31,6 +32,13 @@ public class SchoolService {
         return schoolRepository.
                 findAll(pageable).
                 map(offer -> modelMapper.map(offer, SchoolDetailDTO.class));
+    }
+
+    public List<SchoolDetailDTO> getAllSchoolsRest() {
+        return schoolRepository.findAll().
+                stream().
+                map(s -> modelMapper.map(s, SchoolDetailDTO.class))
+                .collect(Collectors.toList());
     }
 
     public List<SchoolDetailDTO> searchSchool(SearchSchoolDTO searchSchoolDTO) {
@@ -55,7 +63,7 @@ public class SchoolService {
             }
         }
 
-        if (!newDTOs.isEmpty()) {
+        if (!newDTOs.isEmpty() || (searchSchoolDTO.getProfile() != null && !searchSchoolDTO.getProfile().isEmpty())) {
             return newDTOs;
         }
 
