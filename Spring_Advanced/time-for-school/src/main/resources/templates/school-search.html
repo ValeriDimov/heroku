@@ -16,9 +16,9 @@
 
 <div th:replace="fragments/navbar">Navbar</div>
 <div class="container">
-    <h2 class="text-center text-white">Search for schools</h2>
+    <h2 class="text-center text-white" th:text="#{school_search_main}">Search for schools</h2>
     <div class="card-body.search text-center">
-        <a class="card-link" href="#" th:href="@{/schools/all}">Back</a>
+        <a class="card-link" href="#" th:href="@{/schools/all}" th:text="#{schools_back}"></a>
     </div>
     <form
             th:method="GET"
@@ -57,7 +57,7 @@
                 class="form-control mr-sm-2"
                 style="width: 280px;"
                 type="search"
-                placeholder="District name..."
+                placeholder = "District name..."
                 aria-label="Search"
                 id="districtName"
         />
@@ -91,7 +91,7 @@
         </label>
         <div class="search-but">
             <div class="col col-md-4 ">
-                <button class="btn btn-info btn-lg" type="submit">Search</button>
+                <button class="btn btn-info btn-lg" type="submit" th:text="#{school_search_btn}"></button>
 
             </div>
         </div>

@@ -18,7 +18,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div th:replace="fragments/navbar">Navbar</div>
 
 <div th:object="${offer}" class="container-fluid">
-    <h2 class="text-center text-white mt-5">Details</h2>
+    <h2 class="text-center text-white mt-5" th:text="#{offers_details_main}">Details</h2>
     <div class="offers row mx-auto d-flex flex-row justify-content-center">
         <div class="offer card col-sm-4 col-md-6  col-lg-8 m-1 p-0">
 
@@ -32,9 +32,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </div>
             <ul class="offer-details list-group list-group-flush">
                 <li class="list-group-item">
-                    <h6 class="card-text"><span>• Course description: </span></h6>
+                    <h6 class="card-text"><span th:text="#{offers_details_desc}"></span>
+                        <span></span></h6>
                     <div class="card-text"><span><th:block th:text="*{description}"></th:block></span></div>
-                    <h6 class="card-text"><span>• Contacts: </span></h6>
+                    <h6 class="card-text"><span th:text="#{offers_details_contact}"></span>
+                        <span></span></h6>
                     <div class="card-text"><span><th:block th:text="*{contact}"></th:block> </span></div>
                 </li>
             </ul>
@@ -46,7 +48,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     <div class="row">
                         <div class="col col-md-4">
                             <div class="button-holder d-flex">
-                                <input type="submit" class="btn btn-info btn-lg" value="Delete"/>
+                                <input type="submit" class="btn btn-info btn-lg" th:value="#{offers_details_delete}"/>
                             </div>
                         </div>
                     </div>
@@ -60,14 +62,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <div class="row">
                     <div class="col col-md-4">
                         <div class="button-holder d-flex">
-                            <input type="submit" class="btn btn-info btn-lg" value="Edit offer"/>
+                            <input type="submit" class="btn btn-info btn-lg" th:value="#{offers_details_edit}"/>
                         </div>
                     </div>
                 </div>
             </form>
 
             <div class="card-body">
-                <a class="card-link" href="#" th:href="@{/offers/all}">Back</a>
+                <a class="card-link" href="#" th:href="@{/offers/all}" th:text="#{offers_details_back}"></a>
             </div>
 
         </div>

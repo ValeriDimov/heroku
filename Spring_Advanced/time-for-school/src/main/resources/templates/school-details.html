@@ -18,7 +18,7 @@
 <div th:replace="fragments/navbar">Navbar</div>
 
 <div th:object="${school}" class="container-fluid">
-    <h2 class="text-center text-white mt-5">Details</h2>
+    <h2 class="text-center text-white mt-5" th:text="#{school_details_main}">Details</h2>
     <div class="offers row mx-auto d-flex flex-row justify-content-center">
         <div class="offer card col-sm-4 col-md-6  col-lg-8 m-1 p-0">
             <div class="card-body pb-1">
@@ -31,10 +31,12 @@
                 <h5 class="card-title text-center">
                     <th:block th:text="*{districtName}"></th:block>
                 </h5>
-                <h6 class="card-title text-center"><span>• School website: <th:block th:text="*{schoolUrl}"></th:block></span></h6>
+                <h6 class="card-title text-center"><span th:text="#{school_details_website}"></span>
+                    <span><th:block th:text="*{schoolUrl}"></th:block></span>
+                </h6>
             </div>
 
-            <h6 class="card-title"><span>• School profiles: </span></h6>
+            <h6 class="card-title"><span th:text="#{school_details_profiles}">• School profiles: </span></h6>
             <ul class="offer-details list-group list-group-flush"
                 th:each="schoolProfile : ${school.getSchoolProfiles()}">
                 <li class="list-group-item">
@@ -42,13 +44,17 @@
                     </div>
                 </li>
             </ul>
-            <h6 class="card-title"><span>• Director: <th:block th:text="*{director}"></th:block></span></h6>
-            <h6 class="card-title"><span>• Telephone: <th:block th:text="*{telephone}"></th:block></span></h6>
-            <h6 class="card-title"><span>• Email address: <th:block th:text="*{email}"></th:block></span></h6>
-            <h6 class="card-title"><span>• School address: <th:block th:text="*{address}"></th:block></span></h6>
+            <h6 class="card-title"><span th:text="#{school_details_director}"></span>
+                <span><th:block th:text="*{director}"></th:block></span></h6>
+            <h6 class="card-title"><span th:text="#{school_details_telephone}"></span>
+                <span><th:block th:text="*{telephone}"></th:block></span></h6>
+            <h6 class="card-title"><span th:text="#{school_details_email}"></span>
+                <span><th:block th:text="*{email}"></th:block></span></h6>
+            <h6 class="card-title"><span th:text="#{school_details_address}"></span>
+                <span><th:block th:text="*{address}"></th:block></span></h6>
 
             <div class="card-body">
-                <a class="card-link" href="#" th:href="@{/schools/all}">Back</a>
+                <a class="card-link" href="#" th:href="@{/schools/all}" th:text="#{school_details_back}"></a>
             </div>
         </div>
     </div>
