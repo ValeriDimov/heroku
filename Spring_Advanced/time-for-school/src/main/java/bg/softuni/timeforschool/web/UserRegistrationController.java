@@ -43,10 +43,12 @@ public class UserRegistrationController {
                          RedirectAttributes redirectAttributes,
                          HttpServletRequest request) {
 
-    if (bindingResult.hasErrors()) {
+    if (bindingResult.hasErrors() || !userService.passMatcher(userModel.getPassword(), userModel.getConfirmPassword())) {
       redirectAttributes.addFlashAttribute("userModel", userModel);
+      redirectAttributes.addFlashAttribute("passMatcher", true);
       redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userModel",
               bindingResult);
+
       return "redirect:/users/register";
     }
 

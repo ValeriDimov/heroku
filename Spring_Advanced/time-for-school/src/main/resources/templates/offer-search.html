@@ -16,9 +16,9 @@
 
 <div th:replace="fragments/navbar">Navbar</div>
 <div class="container">
-    <h2 class="text-center text-white">Search for offers</h2>
+    <h2 class="text-center text-white" th:text="#{off_search_main}">Search for offers</h2>
     <div class="card-body.search text-center">
-        <a class="card-link" href="#" th:href="@{/offers/all}">Back</a>
+        <a class="card-link" href="#" th:href="@{/offers/all}" th:text="#{offers_back}">Back</a>
     </div>
     <form
             th:method="GET"
@@ -71,7 +71,7 @@
                 <h3 th:if="${offers == null}" class="text-info">There are no offers with these criteria</h3>
             </small>
         </div>
-        <button class="btn btn-info btn-lg" type="submit">Search</button>
+        <button class="btn btn-info btn-lg" type="submit" th:text="#{offers_search_btn}">Search</button>
     </form>
 </div>
 
@@ -88,9 +88,9 @@
         </div>
         <ul class="offer-details list-group list-group-flush">
             <li class="list-group-item">
-                <h6 class="card-text"><span>• Course description: </span></h6>
+                <h6 class="card-text"><span th:text="#{off_search_desc}"></span></h6>
                 <div class="card-text"><span><th:block th:text="${offer.description}"></th:block></span></div>
-                <h6 class="card-text"><span>• Contacts: </span></h6>
+                <h6 class="card-text"><span th:text="#{off_search_contacts}"></span></h6>
                 <div class="card-text"><span><th:block th:text="${offer.contact}"></th:block> </span></div>
             </li>
         </ul>

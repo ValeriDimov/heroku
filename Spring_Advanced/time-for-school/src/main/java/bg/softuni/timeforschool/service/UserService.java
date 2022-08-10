@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -55,11 +56,17 @@ public class UserService {
 
         newUser.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
 
+
         this.userRepository.save(newUser);
         login(newUser.getEmail());
         emailService.sendRegistrationEmail(newUser.getEmail(),
                 newUser.getName(),
                 preferredLocale);
+    }
+
+    public boolean passMatcher(String pass1, String pass2) {
+
+        return pass1.equals(pass2);
     }
 
 

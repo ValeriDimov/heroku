@@ -16,13 +16,15 @@
 <div th:replace="fragments/navbar">Navbar</div>
 
 <div class="container">
-    <h2 class="text-center text-white">Edit Offer</h2>
+    <h2 class="text-center text-white" th:text="#{offer_edit_main}">Edit Offer</h2>
+    <h6 class="text-center text-white" th:text="#{offer_edit_text}"></h6>
+
     <form th:action="@{/offers/edit}"
           th:method="post"
           th:object="${offerEdit}"
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="form-group">
-            <label class="text-white font-weight-bold" for="course">Course name</label>
+            <label class="text-white font-weight-bold" for="course" th:text="#{offer_edit_name}">Course name</label>
 
             <input
                     id="course"
@@ -33,7 +35,7 @@
                     placeholder="Type the name of the course here"
             />
             <p class="invalid-feedback errors alert alert-danger">
-                Course name is required.
+                <span th:text="#{offer_name_edit_error}"></span>
             </p>
 
         </div>
@@ -51,7 +53,7 @@
         </div>
 
         <div class="form-group">
-            <label class="text-white font-weight-bold" for="description">Description</label>
+            <label class="text-white font-weight-bold" for="description" th:text="#{offer_edit_desc}">Description</label>
             <textarea
                     id="description"
                     th:field="*{description}"
@@ -63,12 +65,12 @@
             >
             </textarea>
             <p class="invalid-feedback errors alert alert-danger">
-                Description is required.
+                <span th:text="#{offer_desc_edit_error}"></span>
             </p>
         </div>
 
         <div class="form-group">
-            <label class="text-white font-weight-bold" for="description">Contacts</label>
+            <label class="text-white font-weight-bold" for="description" th:text="#{offer_edit_contacts}">Contacts</label>
             <textarea
                     id="contact"
                     th:field="*{contact}"
@@ -80,15 +82,20 @@
             >
             </textarea>
             <p class="invalid-feedback errors alert alert-danger">
-                Contacts are required.
+                <span th:text="#{offer_contacts_edit_error}"></span>
             </p>
         </div>
 
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Submit Offer"/>
+                    <input type="submit" class="btn btn-info btn-lg" th:value="#{offer_edit_btn}"/>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-body">
+                <a class="card-link" href="#" th:href="@{/offers/all}" th:text="#{offer_edit_back}"></a>
             </div>
         </div>
     </form>
