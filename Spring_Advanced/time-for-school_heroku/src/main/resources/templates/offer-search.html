@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Time for School</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar">Navbar</div>
+<div class="container">
+    <h2 class="text-center text-white" th:text="#{off_search_main}">Search for offers</h2>
+    <div class="card-body.search text-center">
+        <a class="card-link" href="#" th:href="@{/offers/all}" th:text="#{offers_back}">Back</a>
+    </div>
+    <form
+            th:method="GET"
+            th:action="@{/offers/search}"
+            th:object="${searchOfferModel}"
+            class="form-inline"
+            style="justify-content: center; margin-top: 50px;"
+    >
+        <div style="position: relative">
+
+            <input
+                    th:field="*{course}"
+                    th:errorclass="is-invalid"
+                    class="form-control mr-sm-2"
+                    style="width: 280px;"
+                    type="search"
+                    placeholder="Course name..."
+                    aria-label="Search"
+                    id="model"
+            />
+
+            <input
+                    th:field="*{seller}"
+                    th:errorclass="is-invalid"
+                    class="form-control mr-sm-2"
+                    style="width: 280px;"
+                    type="search"
+                    placeholder="Learning center/Teacher name..."
+                    aria-label="Search"
+                    id="maxPrice"
+            />
+
+
+            <input
+                    th:field="*{description}"
+                    th:errorclass="is-invalid"
+                    class="form-control mr-sm-2"
+                    style="width: 280px;"
+                    type="search"
+                    placeholder="Description..."
+                    aria-label="Search"
+                    id="minPrice"
+            />
+
+            <small
+                    id="searchOfferHelpInline"
+                    class="bg-danger text-light rounded invalid-feedback"
+                    style="width: 97%; position: absolute; padding: 3px 15px; text-align: center;"
+            >
+                <h3 th:if="${offers == null}" class="text-info">There are no offers with these criteria</h3>
+            </small>
+        </div>
+        <button class="btn btn-info btn-lg" type="submit" th:text="#{offers_search_btn}">Search</button>
+    </form>
+</div>
+
+<div class="offers row mx-auto d-flex flex-row justify-content-center" style="margin-top: 40px;">
+
+    <div th:each="offer: ${offers}" class="offer card col-sm-4 col-md-6  col-lg-8 m-1 p-0">
+        <div class="card-body pb-1">
+            <h4 class="card-title text-center">
+                <th:block th:text="${offer.course}"></th:block>
+            </h4>
+            <h5 class="card-title text-center">
+                <th:block th:text="${offer.sellerName}"></th:block>
+            </h5>
+        </div>
+        <ul class="offer-details list-group list-group-flush">
+            <li class="list-group-item">
+                <h6 class="card-text"><span th:text="#{off_search_desc}"></span></h6>
+                <div class="card-text"><span><th:block th:text="${offer.description}"></th:block></span></div>
+                <h6 class="card-text"><span th:text="#{off_search_contacts}"></span></h6>
+                <div class="card-text"><span><th:block th:text="${offer.contact}"></th:block> </span></div>
+            </li>
+        </ul>
+
+    </div>
+    <h3 th:if="${offers != null && offers.size == 0}" class="text-info">There are no offers with this course yet</h3>
+</div>
+
+<div>
+    <footer></footer>
+</div>
+
+</body>
+</html>
