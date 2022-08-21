@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Time for School</title>
+    <link rel="stylesheet" href="/css/reset-css.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <script src="/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar">Navbar</div>
+<div class="container">
+    <h2 class="text-center text-white" th:text="#{school_search_main}">Search for schools</h2>
+    <div class="card-body.search text-center">
+        <a class="card-link" href="#" th:href="@{/schools/all}" th:text="#{schools_back}"></a>
+    </div>
+    <form
+            th:method="GET"
+            th:action="@{/schools/search}"
+            th:object="${searchSchoolModel}"
+            class="form-inline"
+            style="justify-content: center; margin-top: 50px;"
+    >
+        <!--        <div class="search-school-fields" style="position: relative">-->
+        <input
+                th:field="*{name}"
+                th:errorclass="is-invalid"
+                class="form-control mr-sm-2"
+                style="width: 280px;"
+                type="search"
+                placeholder="School name..."
+                aria-label="Search"
+                id="name"
+        />
+        <!--            <div class="search-school-fields" style="position: relative">-->
+
+        <input
+                th:field="*{cityName}"
+                th:errorclass="is-invalid"
+                class="form-control mr-sm-2"
+                style="width: 280px;"
+                type="search"
+                placeholder="City name..."
+                aria-label="Search"
+                id="cityName"
+        />
+
+        <input
+                th:field="*{districtName}"
+                th:errorclass="is-invalid"
+                class="form-control mr-sm-2"
+                style="width: 280px;"
+                type="search"
+                placeholder = "District name..."
+                aria-label="Search"
+                id="districtName"
+        />
+
+
+        <label class="text-center text-white font-weight-bold" for="profile">
+
+            <select
+                    id="profile"
+                    name="profile"
+                    class="form-control">
+                <option value="">- Select profile type -</option>
+                <option
+                        type="search"
+                        th:each="e : ${T(bg.softuni.timeforschool.model.enums.SchoolProfileEnum).values()}"
+                        th:text="${e}"
+                        th:value="${e}"
+                        th:field="*{profile}"
+                        th:selected="${e} == *{profile}">
+                    Profile type
+                </option>
+            </select>
+
+            <small
+                    id="searchschoolHelpInline"
+                    class="bg-danger text-light rounded invalid-feedback"
+                    style="width: 97%; position: absolute; padding: 3px 15px; text-align: center;"
+            >
+                <h3 th:if="${schools == null}" class="text-info">There are no schools with these criteria</h3>
+            </small>
+        </label>
+        <div class="search-but">
+            <div class="col col-md-4 ">
+                <button class="btn btn-info btn-lg" type="submit" th:text="#{school_search_btn}"></button>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="schools row mx-auto d-flex flex-row justify-content-center" style="margin-top: 40px;">
+
+    <div th:each="school: ${schools}" class="school card col-sm-4 col-md-6  col-lg-8 m-1 p-0">
+        <div class="card-body pb-1">
+            <h4 class="card-title text-center">
+                <th:block th:text="${school.name}"></th:block>
+            </h4>
+            <h5 class="card-title text-center">
+                <th:block th:text="${school.cityName}"></th:block>
+            </h5>
+            <h5 class="card-title text-center">
+                <th:block th:text="${school.districtName}"></th:block>
+            </h5>
+            <h6 class="card-title text-center"><span>• School website: <th:block
+                    th:text="${school.schoolUrl}"></th:block></span></h6>
+        </div>
+
+        <h6 class="card-title"><span>• School profiles: </span></h6>
+        <ul class="offer-details list-group list-group-flush"
+            th:each="schoolProfile : ${school.getSchoolProfiles()}">
+            <li class="list-group-item">
+                <div class="card-text"><span><th:block th:text="${schoolProfile.toString()}"></th:block></span>
+                </div>
+            </li>
+        </ul>
+        <h6 class="card-title"><span>• Director: <th:block th:text="${school.director}"></th:block></span></h6>
+        <h6 class="card-title"><span>• Telephone: <th:block th:text="${school.telephone}"></th:block></span></h6>
+        <h6 class="card-title"><span>• Email address: <th:block th:text="${school.email}"></th:block></span></h6>
+        <h6 class="card-title"><span>• School address: <th:block th:text="${school.address}"></th:block></span></h6>
+
+        <div class="card-body">
+            <a class="card-link" href="#" th:href="@{/schools/search}">Back</a>
+        </div>
+        <h3 th:if="${schools != null && schools.size == 0}" class="text-info">There are no schools with this course
+            yet</h3>
+    </div>
+
+    <div>
+        <footer></footer>
+    </div>
+
+</body>
+</html>
