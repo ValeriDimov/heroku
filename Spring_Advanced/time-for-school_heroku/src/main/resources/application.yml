@@ -16,10 +16,10 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
-  security:
-    oauth2:
-      client:
-        registration:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
 #          facebook:
 #            client-id: 412887257605774
 #            client-secret: todo
