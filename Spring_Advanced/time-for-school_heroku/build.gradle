@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'bg.softuni'
-sourceCompatibility = '16'
+sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()

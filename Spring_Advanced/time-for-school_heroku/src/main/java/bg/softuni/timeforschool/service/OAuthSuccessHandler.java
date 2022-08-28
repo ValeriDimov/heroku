@@ -26,16 +26,16 @@ public class OAuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
                                       HttpServletResponse response, FilterChain chain,
                                       Authentication authentication) throws IOException, ServletException {
 
-    if (authentication instanceof
-        OAuth2AuthenticationToken oAuth2AuthenticationToken) {
-      var userEmail = oAuth2AuthenticationToken.
-          getPrincipal().
-          getAttribute("email").
-          toString();
-
-      userService.createUserIfNotExist(userEmail);
-      userService.login(userEmail);
-    }
+//    if (authentication instanceof
+//        OAuth2AuthenticationToken oAuth2AuthenticationToken) {
+//      var userEmail = oAuth2AuthenticationToken.
+//          getPrincipal().
+//          getAttribute("email").
+//          toString();
+//
+//      userService.createUserIfNotExist(userEmail);
+//      userService.login(userEmail);
+//    }
 
     super.onAuthenticationSuccess(request, response, chain, authentication);
   }
